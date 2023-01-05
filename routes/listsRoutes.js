@@ -1,9 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const {} = require('../controllers/lists.js');
+const {
+	getListById,
+	createListCategory,
+	addNewListType,
+	addComicToListId,
+} = require('../controllers/listsController.js');
 
-router.route('/register').post(registerUser);
-router.route('/login').post(loginUser);
+router.route('/createListCategory/').post(createListCategory);
+router.route('/getListById/').post(getListById);
+router.route('/addNewListType/').post(addNewListType);
+router.route('/addComicToListId/').post(addComicToListId);
 
 // router.route('/me').get(isAuthenticatedUser, getUserDetails);
 

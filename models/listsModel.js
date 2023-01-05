@@ -6,17 +6,38 @@ const listsSchema = new mongoose.Schema({
 		ref: 'User',
 		required: true,
 	},
-	lists: [
+	listsType: [
 		{
 			// Ex: Wishlist, watchlist, etc
-			name: {
+			listName: {
 				type: String,
 				required: true,
+				unique: true,
 			},
-			description: {
-				type: String,
-				required: true,
-			},
+			content: [
+				{
+					comicName: {
+						type: String,
+						required: true,
+					},
+					comicDescription: {
+						type: String,
+					},
+					chaptersRead: {
+						type: Number,
+						required: true,
+					},
+					totalChapters: {
+						type: Number,
+						required: true,
+					},
+					lastTimeRead: {
+						type: Date,
+						required: true,
+						default: Date.now,
+					},
+				},
+			],
 		},
 	],
 });

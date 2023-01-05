@@ -57,7 +57,8 @@ exports.loginUser = CatchAsyncErrors(async (req, res, next) => {
 			new ErrorHandler('Invalid email or password', 401).getError(res)
 		);
 
-	sendToken(user, 200, res);
+	// sendToken(user, 200, res);
+	res.status(200).json(user).end();
 });
 
 // Forgot password
@@ -126,7 +127,8 @@ exports.resetPassword = CatchAsyncErrors(async (req, res, next) => {
 	user.resetPasswordExpire = undefined;
 
 	await user.save();
-	sendToken(user, 200, res);
+	// sendToken(user, 200, res);
+	res.status(200).json(user).end();
 });
 
 // Get user details for LOGGED IN user only
