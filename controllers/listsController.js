@@ -12,9 +12,9 @@ const CatchAsyncErrors = require('../utils/CatchAsyncErrors');
 exports.getListById = async (req, res, next) => {
 	try {
 		const list = await List.findOne({ user: req.body.user });
-		res.json(list).end();
+		res.status(200).json(list).end();
 	} catch (error) {
-		res.json({ error: error.message });
+		res.status(400).json({ error: error.message });
 	}
 };
 
@@ -98,16 +98,22 @@ exports.addNewListType = async (req, res, next) => {
  */
 exports.addComicToListId = async (req, res, next) => {
 	try {
-		const list = await List.findOne({ user: req.body.user });
-		for (let i = 0; i < list.listsType.length; i++) {
-			if (String(list.listsType[i]._id).includes(req.body.listType._id)) {
-				list.listsType[i] = req.body.listType;
+		const user = await List.findOne({ user: req.body.user });
+
+		for (let i = 0; i < user.listsType.length; i++) {
+			if (String(user.listsType[i]._id) == req.body.listType._id) {
+				console.log('FOUND IT');
+				console.log(user.listsType[i]);
+				user.listsType[i].content = [
+					...user.listsType[i].content,
+					req.body.listType.listContent,
+				];
 				break;
 			}
 		}
-		await list.save();
+		await user.save();
 
-		res.json(list).end();
+		res.json(user).end();
 	} catch (error) {
 		res.json({ error: error.message });
 	}
